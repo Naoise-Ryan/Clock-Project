@@ -1,17 +1,29 @@
 const canvas = document.getElementById("the_canvas")
 const context = canvas.getContext("2d");
 context.imageSmoothingEnabled = false;
+context.font = "20px Arial";
+context.fillStyle = "red";
+context.strokeStyle = "black";
+context.lineWidth = 2;
+
+let seconds = 0
+let minutes = 0
+let hours = 0
+
 
 function codeLoop() {
-    draw()
     updateTime()
+    draw()
     window.requestAnimationFrame(codeLoop);
 }
 
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = "red";
-    context.fillRect(0,0,10,10);
+    drawSquare(10, 10, 25)
+
+    context.fillText(hours, (canvas.width / 2), 50)
+    context.fillText(minutes, (canvas.width / 2 + 30), 50)
+    context.fillText(seconds, (canvas.width / 2 + 60), 50)
 }
 
 function updateTime() {
@@ -25,8 +37,13 @@ function updateTime() {
     console.log("hours ", hours)
 }
 
-let seconds = 0
-let minutes = 0
-let hours = 0
+function drawSquare(x, y, size) {
+    context.fillStyle = "red";
+    context.fillRect(x, y, size, size);
+
+    //outline
+    context.fillStyle = "black";
+    context.strokeRect(x, y, size, size);
+}
 
 codeLoop()
