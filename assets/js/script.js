@@ -46,7 +46,7 @@ function drawSquare(x, y, size) {
 }
 
 function drawSecondsBox(time) {
-    for (let i = 0; i < time; i++) {
+    for (let i = 0; i <= time; i++) {
         let xPosMultiplyer = i
         if (xPosMultiplyer >= 10) {
             xPosMultiplyer %= 10
