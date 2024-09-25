@@ -47,8 +47,17 @@ function drawSquare(x, y, size) {
 
 function drawSecondsBox(time) {
     for (let i = 0; i < time; i++) {
-        let xPos = secondsBoxStartPos[0] + (cubeSize * i)
-        let yPos = secondsBoxStartPos[1] - (cubeSize * Math.floor((i / 10) % 10))
+        let xPosMultiplyer = i
+        if (xPosMultiplyer >= 10) {
+            xPosMultiplyer %= 10
+        }
+        
+        console.log(xPosMultiplyer)
+
+        let rowDividerMath = Math.floor((i / 10) % 10)
+
+        let xPos = secondsBoxStartPos[0] + (cubeSize * xPosMultiplyer)
+        let yPos = secondsBoxStartPos[1] - (cubeSize * rowDividerMath)
         drawSquare(xPos, yPos, cubeSize)
     }
 }
