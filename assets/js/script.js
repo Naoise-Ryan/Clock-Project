@@ -10,6 +10,8 @@ let seconds = 0
 let minutes = 0
 let hours = 0
 
+const secondsBoxStartPos = [5, 300]
+const cubeSize = 25
 
 function codeLoop() {
     updateTime()
@@ -19,7 +21,8 @@ function codeLoop() {
 
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    drawSquare(10, 10, 25)
+    //drawSquare(10, 10, cubeSize)
+    drawSecondsBox(seconds)
 
     context.fillText(hours, (canvas.width / 2), 50)
     context.fillText(minutes, (canvas.width / 2 + 30), 50)
@@ -31,10 +34,6 @@ function updateTime() {
     seconds = d.getSeconds()
     minutes = d.getMinutes()
     hours = d.getHours()
-
-    console.log("seconds ", seconds)
-    console.log("minutes ", minutes)
-    console.log("hours ", hours)
 }
 
 function drawSquare(x, y, size) {
@@ -44,6 +43,14 @@ function drawSquare(x, y, size) {
     //outline
     context.fillStyle = "black";
     context.strokeRect(x, y, size, size);
+}
+
+function drawSecondsBox(time) {
+    for (let i = 0; i < time; i++) {
+        let xPos = secondsBoxStartPos[0] + (cubeSize * i)
+        let yPos = secondsBoxStartPos[1] - (cubeSize * Math.floor((i / 10) % 10))
+        drawSquare(xPos, yPos, cubeSize)
+    }
 }
 
 codeLoop()
