@@ -21,22 +21,6 @@ function codeLoop() {
     window.requestAnimationFrame(codeLoop);
 }
 
-function draw() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    drawSquare(canvas.width - 280, 325, 250, -150, "purple")
-    drawSquare(515, 325, 250, -150, "purple")
-    drawSquare(30, 325, 250, -150, "purple")
-
-    drawBoxRows(secondsData)
-    drawBoxRows(minutesData)
-    drawBoxRows(hoursData)
-    
-    context.fillText(hours, (canvas.width / 2), 50)
-    context.fillText(minutes, (canvas.width / 2 + 30), 50)
-    context.fillText(seconds, (canvas.width / 2 + 60), 50)
-}
-
 function updateTime() {
     const d = new Date();
     seconds = d.getSeconds()
@@ -46,6 +30,18 @@ function updateTime() {
     secondsData[2] = seconds
     minutesData[2] = minutes
     hoursData[2] = hours
+}
+
+function draw() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawBoxRows(secondsData)
+    drawBoxRows(minutesData)
+    drawBoxRows(hoursData)
+    
+    context.fillText(hours, (canvas.width / 2), 50)
+    context.fillText(minutes, (canvas.width / 2 + 30), 50)
+    context.fillText(seconds, (canvas.width / 2 + 60), 50)
 }
 
 function drawSquare(x, y, sizeX, sizeY, color) {
@@ -58,6 +54,10 @@ function drawSquare(x, y, sizeX, sizeY, color) {
 }
 
 function drawBoxRows(timeArray) {
+    //Draws the background
+    drawBackground(timeArray)
+    
+    //Draws the cubes representing time
     for (let i = 0; i < timeArray[2]; i++) {
         let xPosMultiplyer = i
         if (xPosMultiplyer >= timeArray[6]) {
@@ -71,6 +71,10 @@ function drawBoxRows(timeArray) {
         context.fillStyle = timeArray[4]
         drawSquare(xPos, yPos, timeArray[3], timeArray[4], timeArray[5])
     }
+}
+
+function drawBackground(timeArray) {
+    drawSquare(timeArray[0], (timeArray[1] + 25), (timeArray[3] * timeArray[6]), (timeArray[4] * -6), "gray")
 }
 
 codeLoop()
