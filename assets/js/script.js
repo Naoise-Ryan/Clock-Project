@@ -11,14 +11,9 @@ let minutes = 0
 let hours = 0
 
 //Data setup = X, Y, time Type, SizeX, SizeY, Color, row length
-const secondsData = [canvas.width - 255, 300, seconds, 25, 25, "red", 10]
+const secondsData = [canvas.width - 280, 300, seconds, 25, 25, "red", 10]
 const minutesData = [515, 300, minutes, 25, 25, "blue", 10]
-const hoursData = [5, 300, hours, 75, 25, "green", 4]
-
-const secondsBoxStartPos = [1000, 300]
-const minutesBoxStartPos = [500, 300]
-const hoursBoxStartPos = [5, 300]
-const cubeSize = 25
+const hoursData = [30, 300, hours, 62.5, 25, "green", 4]
 
 function codeLoop() {
     updateTime()
@@ -29,6 +24,9 @@ function codeLoop() {
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
+    drawSquare(canvas.width - 280, 325, 250, -150, "purple")
+    drawSquare(515, 325, 250, -150, "purple")
+    drawSquare(30, 325, 250, -150, "purple")
 
     drawBoxRows(secondsData)
     drawBoxRows(minutesData)
