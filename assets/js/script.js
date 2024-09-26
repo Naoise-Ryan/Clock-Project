@@ -6,14 +6,15 @@ context.fillStyle = "red";
 context.strokeStyle = "black";
 context.lineWidth = 2;
 
+let milisecs = 0
 let seconds = 0
 let minutes = 0
 let hours = 0
 
-//Data setup = X, Y, time Type, SizeX, SizeY, Color, row length
-const secondsData = [canvas.width - 280, 300, seconds, 25, 25, "red", 10]
-const minutesData = [515, 300, minutes, 25, 25, "blue", 10]
-const hoursData = [30, 300, hours, 62.5, 25, "green", 4]
+//Data setup = X, Y, time Type, SizeX, SizeY, Color, row length, loops
+const secondsData = [canvas.width - 280, 300, seconds, 25, 25, "red", 10, 0]
+const minutesData = [515, 300, minutes, 25, 25, "blue", 10, 0]
+const hoursData = [30, 300, hours, 62.5, 25, "green", 4, 0]
 
 function codeLoop() {
     updateTime()
@@ -21,8 +22,13 @@ function codeLoop() {
     window.requestAnimationFrame(codeLoop);
 }
 
+function returnSeconds(){
+    return new Date().getSeconds()
+}
+
 function updateTime() {
     const d = new Date();
+    milisecs = d.getMilliseconds()
     seconds = d.getSeconds()
     minutes = d.getMinutes()
     hours = d.getHours()
@@ -57,6 +63,7 @@ function drawBoxRows(timeArray) {
         if (xPosMultiplyer >= timeArray[6]) {
             xPosMultiplyer %= timeArray[6]
         }
+
         drawNextCube(xPosMultiplyer, timeArray)
 
         let rowDividerMath = Math.floor((i / timeArray[6]) % timeArray[6])
@@ -78,9 +85,21 @@ function drawNextCube(xPosMultiplyer, timeArray){
     }
 
     let xPos = timeArray[0] + (timeArray[3] * xPosMultiplyer)
-    let yPos = 25
-    context.clearRect(timeArray[0]-5, yPos-2, 350, 30);
+    let yPos = timeArray[1] - 275
+
+    yPos = timeArray[1] - 300 * (1 - milisecs/(1000 + (118 * timeArray[7])))
+
+    context.clearRect(timeArray[0]-1, yPos-2, 350, 30);
     drawSquare(xPos, yPos, timeArray[3], timeArray[4], timeArray[5])
 }
+
+function callEverySecond(){
+    returnSeconds()
+
+    secondsData[7] = Math.floor(returnSeconds() / 10)
+}
+
+
+setInterval(callEverySecond, 1000)
 
 codeLoop()
