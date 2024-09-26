@@ -10,7 +10,14 @@ let seconds = 0
 let minutes = 0
 let hours = 0
 
-const secondsBoxStartPos = [5, 300]
+//Data setup = X, Y, time Type, SizeX, SizeY, Color, row length
+const secondsData = [canvas.width - 255, 300, seconds, 25, 25, "red", 10]
+const minutesData = [515, 300, minutes, 25, 25, "blue", 10]
+const hoursData = [5, 300, hours, 75, 25, "green", 4]
+
+const secondsBoxStartPos = [1000, 300]
+const minutesBoxStartPos = [500, 300]
+const hoursBoxStartPos = [5, 300]
 const cubeSize = 25
 
 function codeLoop() {
@@ -21,9 +28,12 @@ function codeLoop() {
 
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    //drawSquare(10, 10, cubeSize)
-    drawSecondsBox(seconds)
 
+
+    drawBoxRows(secondsData)
+    drawBoxRows(minutesData)
+    drawBoxRows(hoursData)
+    
     context.fillText(hours, (canvas.width / 2), 50)
     context.fillText(minutes, (canvas.width / 2 + 30), 50)
     context.fillText(seconds, (canvas.width / 2 + 60), 50)
@@ -34,31 +44,34 @@ function updateTime() {
     seconds = d.getSeconds()
     minutes = d.getMinutes()
     hours = d.getHours()
+
+    secondsData[2] = seconds
+    minutesData[2] = minutes
+    hoursData[2] = hours
 }
 
-function drawSquare(x, y, size) {
-    context.fillStyle = "red";
-    context.fillRect(x, y, size, size);
+function drawSquare(x, y, sizeX, sizeY, color) {
+    context.fillStyle = color;
+    context.fillRect(x, y, sizeX, sizeY);
 
     //outline
     context.fillStyle = "black";
-    context.strokeRect(x, y, size, size);
+    context.strokeRect(x, y, sizeX, sizeY);
 }
 
-function drawSecondsBox(time) {
-    for (let i = 0; i <= time; i++) {
+function drawBoxRows(timeArray) {
+    for (let i = 0; i < timeArray[2]; i++) {
         let xPosMultiplyer = i
-        if (xPosMultiplyer >= 10) {
-            xPosMultiplyer %= 10
+        if (xPosMultiplyer >= timeArray[6]) {
+            xPosMultiplyer %= timeArray[6]
         }
-        
-        console.log(xPosMultiplyer)
 
-        let rowDividerMath = Math.floor((i / 10) % 10)
+        let rowDividerMath = Math.floor((i / timeArray[6]) % timeArray[6])
 
-        let xPos = secondsBoxStartPos[0] + (cubeSize * xPosMultiplyer)
-        let yPos = secondsBoxStartPos[1] - (cubeSize * rowDividerMath)
-        drawSquare(xPos, yPos, cubeSize)
+        let xPos = timeArray[0] + (timeArray[3] * xPosMultiplyer)
+        let yPos = timeArray[1] - (timeArray[4] * rowDividerMath)
+        context.fillStyle = timeArray[4]
+        drawSquare(xPos, yPos, timeArray[3], timeArray[4], timeArray[5])
     }
 }
 
