@@ -26,7 +26,7 @@ function updateTime() {
     seconds = d.getSeconds()
     minutes = d.getMinutes()
     hours = d.getHours()
-
+    //Updates time variables
     secondsData[2] = seconds
     minutesData[2] = minutes
     hoursData[2] = hours
@@ -34,20 +34,14 @@ function updateTime() {
 
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-
     drawBoxRows(secondsData)
     drawBoxRows(minutesData)
     drawBoxRows(hoursData)
-    
-    context.fillText(hours, (canvas.width / 2), 50)
-    context.fillText(minutes, (canvas.width / 2 + 30), 50)
-    context.fillText(seconds, (canvas.width / 2 + 60), 50)
 }
 
 function drawSquare(x, y, sizeX, sizeY, color) {
     context.fillStyle = color;
     context.fillRect(x, y, sizeX, sizeY);
-
     //outline
     context.fillStyle = "black";
     context.strokeRect(x, y, sizeX, sizeY);
@@ -63,9 +57,9 @@ function drawBoxRows(timeArray) {
         if (xPosMultiplyer >= timeArray[6]) {
             xPosMultiplyer %= timeArray[6]
         }
+        drawNextCube(xPosMultiplyer, timeArray)
 
         let rowDividerMath = Math.floor((i / timeArray[6]) % timeArray[6])
-
         let xPos = timeArray[0] + (timeArray[3] * xPosMultiplyer)
         let yPos = timeArray[1] - (timeArray[4] * rowDividerMath)
         context.fillStyle = timeArray[4]
@@ -75,6 +69,18 @@ function drawBoxRows(timeArray) {
 
 function drawBackground(timeArray) {
     drawSquare(timeArray[0], (timeArray[1] + 25), (timeArray[3] * timeArray[6]), (timeArray[4] * -6), "gray")
+}
+
+function drawNextCube(xPosMultiplyer, timeArray){
+    xPosMultiplyer += 1;
+    if (xPosMultiplyer > 9){
+        xPosMultiplyer = 0
+    }
+
+    let xPos = timeArray[0] + (timeArray[3] * xPosMultiplyer)
+    let yPos = 25
+    context.clearRect(timeArray[0]-5, yPos-2, 350, 30);
+    drawSquare(xPos, yPos, timeArray[3], timeArray[4], timeArray[5])
 }
 
 codeLoop()
