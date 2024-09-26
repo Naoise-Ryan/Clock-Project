@@ -87,11 +87,12 @@ function drawNextCube(xPosMultiplyer, timeArray){
     let xPos = timeArray[0] + (timeArray[3] * xPosMultiplyer)
     let yPos = timeArray[1] - 275
 
-    yPos = timeArray[1] - 300 * (1 - milisecs/(1000 + (118 * timeArray[7])))
+    //yPos = secondsData[1] - 300 * (1 - milisecs/(1000 + (118 * secondsData[7])))
 
     context.clearRect(timeArray[0]-1, yPos-2, 350, 30);
     drawSquare(xPos, yPos, timeArray[3], timeArray[4], timeArray[5])
 }
+
 
 function callEverySecond(){
     returnSeconds()
