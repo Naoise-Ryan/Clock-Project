@@ -85,12 +85,31 @@ function drawNextCube(xPosMultiplyer, timeArray){
     }
 
     let xPos = timeArray[0] + (timeArray[3] * xPosMultiplyer)
+    if (timeArray[3] == hoursData[3]){
+        xPos -= timeArray[3]
+    }
     let yPos = timeArray[1] - 275
 
     //yPos = secondsData[1] - 300 * (1 - milisecs/(1000 + (118 * secondsData[7])))
+    yPos = makeNextCubeFall(timeArray)
 
     context.clearRect(timeArray[0]-1, yPos-2, 350, 30);
     drawSquare(xPos, yPos, timeArray[3], timeArray[4], timeArray[5])
+}
+
+function makeNextCubeFall(timeArray){
+    let newYPos = timeArray[1] - 275
+    if (timeArray == secondsData){
+        newYPos = timeArray[1] - 300 * (1 - milisecs/(1000 + (118 * timeArray[7])))
+    }
+    else if (timeArray == minutesData) {
+
+    }
+    else if (timeArray == hoursData) {
+
+    }
+
+    return newYPos
 }
 
 
