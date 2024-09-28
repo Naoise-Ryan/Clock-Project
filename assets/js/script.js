@@ -63,8 +63,13 @@ function drawSquare(x, y, sizeX, sizeY, color) {
 
 function drawBoxRows(timeArray) {
     //Draws the background
-    drawBackground(timeArray)
-    
+
+    let nextCubeX = timeArray[2] % timeArray[6]
+    if (nextCubeX == 0 && timeArray == hoursData) {
+        nextCubeX = 1
+    }
+    drawNextCube(nextCubeX - 1, timeArray)
+
     //Draws the cubes representing time
     for (let i = 0; i < timeArray[2]; i++) {
         let xPosMultiplyer = i
@@ -72,7 +77,8 @@ function drawBoxRows(timeArray) {
             xPosMultiplyer %= timeArray[6]
         }
 
-        drawNextCube(xPosMultiplyer, timeArray)
+        //drawNextCube(xPosMultiplyer, timeArray)
+        context.strokeRect(timeArray[0], (timeArray[1] + 25), (timeArray[3] * timeArray[6]), (timeArray[4] * -6), "gray")
 
         let rowDividerMath = Math.floor((i / timeArray[6]) % timeArray[6])
         let xPos = timeArray[0] + (timeArray[3] * xPosMultiplyer)
@@ -83,7 +89,7 @@ function drawBoxRows(timeArray) {
 }
 
 function drawBackground(timeArray) {
-    drawSquare(timeArray[0], (timeArray[1] + 25), (timeArray[3] * timeArray[6]), (timeArray[4] * -6), "gray")
+    drawSquare(timeArray[0], (timeArray[1] + 25), (timeArray[3] * timeArray[6]), (timeArray[4] * -13), "gray")
 }
 
 function drawNextCube(xPosMultiplyer, timeArray){
@@ -101,7 +107,8 @@ function drawNextCube(xPosMultiplyer, timeArray){
     //yPos = secondsData[1] - 300 * (1 - milisecs/(1000 + (118 * secondsData[7])))
     yPos = makeNextCubeFall(timeArray)
 
-    context.clearRect(timeArray[0]-1, yPos-1, 350, 27);
+    //context.clearRect(timeArray[0]-1, yPos-1, 350, 27);
+    drawBackground(timeArray)
     drawSquare(xPos, yPos, timeArray[3], timeArray[4], timeArray[5])
 }
 
@@ -109,11 +116,12 @@ function makeNextCubeFall(timeArray){
     let newYPos = timeArray[1] - 275
     if (timeArray == secondsData){
         //newYPos = timeArray[1] - 300 * (1 - milisecs/(1000 + (118 * timeArray[7])))
-       newYPos = timeArray[1] - 295 * (1 - milisecs/(1000 + (118 * timeArray[7])))
+       newYPos = timeArray[1] - 300 * (1 - milisecs/(1000 + (118 * timeArray[7])))
     }
     else if (timeArray == minutesData) {
         //newYPos = timeArray[1] - 500 * (0.6 - seconds/100)
         newYPos = timeArray[1] - 400 * ((0.6 + timeArray[7] / 20) - seconds/(100))
+        //newYPos = timeArray[1] - 300 * (1 - seconds/(10 + (31.5 * timeArray[7])))
     }
     else if (timeArray == hoursData) {
         newYPos = timeArray[1] - 300 * ((0.6 + timeArray[7] / 11.7647) - (minutes/100))
