@@ -65,8 +65,8 @@ function drawBoxRows(timeArray) {
     //Draws the background
 
     let nextCubeX = timeArray[2] % timeArray[6]
-    if (nextCubeX == 0 && timeArray == hoursData) {
-        nextCubeX = 1
+    if (timeArray == hoursData) {
+        nextCubeX = nextCubeX+1
     }
     drawNextCube(nextCubeX - 1, timeArray)
 
